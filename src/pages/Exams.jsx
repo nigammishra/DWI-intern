@@ -73,27 +73,29 @@ export default function ExamsPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-gradient-to-b from-gray-50 to-blue-50 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">📘 Exams & Performance</h2>
+    <div className="max-w-6xl mx-auto p-4 sm:p-6  rounded-lg  ">
+      <h2 className="text-2xl sm:text-3xl font-bold    mb-6">
+        📘 Exams & Performance
+      </h2>
 
       {/* Upcoming Exams */}
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-xl transition">
-        <h3 className="text-xl font-semibold mb-4">📅 Upcoming Exams</h3>
+      <div className="bg-white rounded-2xl shadow-md p-4 sm:p-5 mb-6 hover:shadow-xl transition">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4">📅 Upcoming Exams</h3>
         <input
           type="text"
           placeholder="Search by subject or date..."
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="w-full mb-4 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+          className="w-full mb-4 px-3 py-2 text-sm border rounded-lg focus:ring focus:ring-blue-300"
         />
         <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse">
+          <table className="w-full text-xs sm:text-sm md:text-base table-auto border-collapse">
             <thead>
               <tr className="bg-blue-600 text-white">
-                <th className="p-3 border">Subject</th>
-                <th className="p-3 border">Date</th>
-                <th className="p-3 border">Time</th>
-                <th className="p-3 border">Venue</th>
+                <th className="p-2 sm:p-3 border">Subject</th>
+                <th className="p-2 sm:p-3 border">Date</th>
+                <th className="p-2 sm:p-3 border">Time</th>
+                <th className="p-2 sm:p-3 border">Venue</th>
               </tr>
             </thead>
             <tbody>
@@ -104,10 +106,10 @@ export default function ExamsPage() {
                 )
                 .map((exam) => (
                   <tr key={exam.id} className="text-center hover:bg-blue-50">
-                    <td className="p-3 border">{exam.subject}</td>
-                    <td className="p-3 border">{exam.date}</td>
-                    <td className="p-3 border">{exam.time}</td>
-                    <td className="p-3 border">{exam.venue}</td>
+                    <td className="p-2 sm:p-3 border">{exam.subject}</td>
+                    <td className="p-2 sm:p-3 border">{exam.date}</td>
+                    <td className="p-2 sm:p-3 border">{exam.time}</td>
+                    <td className="p-2 sm:p-3 border">{exam.venue}</td>
                   </tr>
                 ))}
             </tbody>
@@ -115,32 +117,32 @@ export default function ExamsPage() {
         </div>
         <button
           onClick={handleDownloadAdmitCard}
-          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition"
+          className="mt-4 bg-blue-600 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-blue-700 transition text-sm sm:text-base"
         >
           Download Admit Card
         </button>
       </div>
 
       {/* Past Results */}
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-xl transition">
-        <h3 className="text-xl font-semibold mb-4">📄 Past Exam Results</h3>
+      <div className="bg-white rounded-2xl shadow-md p-4 sm:p-5 mb-6 hover:shadow-xl transition">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4">📄 Past Exam Results</h3>
         <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse">
+          <table className="w-full text-xs sm:text-sm md:text-base table-auto border-collapse">
             <thead>
               <tr className="bg-green-600 text-white">
-                <th className="p-3 border">Subject</th>
-                <th className="p-3 border">Marks</th>
-                <th className="p-3 border">Grade</th>
-                <th className="p-3 border">Feedback</th>
+                <th className="p-2 sm:p-3 border">Subject</th>
+                <th className="p-2 sm:p-3 border">Marks</th>
+                <th className="p-2 sm:p-3 border">Grade</th>
+                <th className="p-2 sm:p-3 border">Feedback</th>
               </tr>
             </thead>
             <tbody>
               {pastResults.map((res, i) => (
                 <tr key={i} className="text-center hover:bg-green-50">
-                  <td className="p-3 border">{res.subject}</td>
-                  <td className="p-3 border">{res.marks}</td>
-                  <td className="p-3 border">{res.grade}</td>
-                  <td className="p-3 border">{res.feedback}</td>
+                  <td className="p-2 sm:p-3 border">{res.subject}</td>
+                  <td className="p-2 sm:p-3 border">{res.marks}</td>
+                  <td className="p-2 sm:p-3 border">{res.grade}</td>
+                  <td className="p-2 sm:p-3 border">{res.feedback}</td>
                 </tr>
               ))}
             </tbody>
@@ -149,24 +151,26 @@ export default function ExamsPage() {
       </div>
 
       {/* Performance */}
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-xl transition">
-        <h3 className="text-xl font-semibold mb-4">📊 Performance Analytics</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={performanceData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="subject" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="marks" fill="#2563eb" radius={[10, 10, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="bg-white rounded-2xl shadow-md p-4 sm:p-5 mb-6 hover:shadow-xl transition">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4">📊 Performance Analytics</h3>
+        <div className="w-full h-64 sm:h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={performanceData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="subject" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="marks" fill="#2563eb" radius={[10, 10, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Notifications */}
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-xl transition">
-        <h3 className="text-xl font-semibold text-yellow-600 mb-4">🔔 Notifications</h3>
-        <ul className="space-y-3">
+      <div className="bg-white rounded-2xl shadow-md p-4 sm:p-5 mb-6 hover:shadow-xl transition">
+        <h3 className="text-lg sm:text-xl font-semibold text-yellow-600 mb-4">🔔 Notifications</h3>
+        <ul className="space-y-3 text-sm sm:text-base">
           {notifications.map((note, i) => (
             <li
               key={i}
@@ -179,9 +183,9 @@ export default function ExamsPage() {
       </div>
 
       {/* Question Papers */}
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-xl transition">
-        <h3 className="text-xl font-semibold mb-4">📚 Question Papers</h3>
-        <ul className="space-y-3">
+      <div className="bg-white rounded-2xl shadow-md p-4 sm:p-5 mb-6 hover:shadow-xl transition">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4">📚 Question Papers</h3>
+        <ul className="space-y-3 text-sm sm:text-base">
           {questionPapers.map((qp, i) => (
             <li
               key={i}
@@ -194,9 +198,9 @@ export default function ExamsPage() {
       </div>
 
       {/* Guidelines */}
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-xl transition">
-        <h3 className="text-xl font-semibold mb-4">📜 Exam Guidelines</h3>
-        <ul className="list-disc list-inside space-y-2">
+      <div className="bg-white rounded-2xl shadow-md p-4 sm:p-5 mb-6 hover:shadow-xl transition">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4">📜 Exam Guidelines</h3>
+        <ul className="list-disc list-inside space-y-2 text-sm sm:text-base">
           {guidelines.map((g, i) => (
             <li key={i}>{g}</li>
           ))}
@@ -204,9 +208,9 @@ export default function ExamsPage() {
       </div>
 
       {/* Exam Center */}
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-xl transition">
-        <h3 className="text-xl font-semibold mb-4">📍 Exam Center</h3>
-        <div className="rounded-xl overflow-hidden border-2 border-blue-500 h-80">
+      <div className="bg-white rounded-2xl shadow-md p-4 sm:p-5 mb-6 hover:shadow-xl transition">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4">📍 Exam Center</h3>
+        <div className="rounded-xl overflow-hidden border-2 border-blue-500 h-64 sm:h-80">
           <MapContainer center={[examCenter.lat, examCenter.lng]} zoom={15} className="h-full w-full">
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -221,7 +225,7 @@ export default function ExamsPage() {
 
       {/* Calendar Sync */}
       <div className="text-center">
-        <button className="bg-cyan-600 text-white px-6 py-2 rounded-full hover:bg-cyan-700 transition">
+        <button className="bg-cyan-600 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-cyan-700 transition text-sm sm:text-base">
           Sync with Google Calendar
         </button>
       </div>

@@ -1,11 +1,19 @@
-import React, { useState, useMemo, useRef } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+// src/pages/Health.jsx
+import React, { useState, useRef } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 /**
  * Tailwind + React page for Health records (client-side demo)
- * Save this as src/pages/Health.jsx
  */
 
 const SAMPLE_CHILDREN = [
@@ -24,7 +32,6 @@ const SAMPLE_HEALTH_DB = {
       { name: "MMR", date: "2023-06-10" },
     ],
     growth: [
-      // month label, height (cm), weight (kg)
       { month: "Jan'24", height: 120, weight: 22 },
       { month: "Apr'24", height: 123, weight: 23.5 },
       { month: "Jul'24", height: 125, weight: 24.1 },
@@ -33,12 +40,27 @@ const SAMPLE_HEALTH_DB = {
     ],
     nurseNotes: [
       { date: "2024-09-01", note: "Minor cold. Observed for 2 hours." },
-      { date: "2024-12-10", note: "Skin rash - applied lotion; parent notified." },
+      {
+        date: "2024-12-10",
+        note: "Skin rash - applied lotion; parent notified.",
+      },
     ],
     medications: [
-      { date: "2024-09-01", med: "Paracetamol", dose: "250 mg", reason: "Fever", givenBy: "Nurse Ram" },
+      {
+        date: "2024-09-01",
+        med: "Paracetamol",
+        dose: "250 mg",
+        reason: "Fever",
+        givenBy: "Nurse Ram",
+      },
     ],
-    fitness: [{ program: "Yoga Club", status: "Active", lastParticipated: "2025-02-15" }],
+    fitness: [
+      {
+        program: "Yoga Club",
+        status: "Active",
+        lastParticipated: "2025-02-15",
+      },
+    ],
     emergencyContacts: [
       { name: "John Doe (Father)", relation: "Father", phone: "+91 9876543210" },
       { name: "Jane Doe (Mother)", relation: "Mother", phone: "+91 9123456780" },
@@ -46,7 +68,11 @@ const SAMPLE_HEALTH_DB = {
     healthAlerts: ["Vaccination due: Tdap on 2025-09-20"],
     medicalHistory: [
       { date: "2023-06-01", title: "Annual Checkup", summary: "All normal" },
-      { date: "2024-09-01", title: "Cold", summary: "Observed; home rest advised" },
+      {
+        date: "2024-09-01",
+        title: "Cold",
+        summary: "Observed; home rest advised",
+      },
     ],
   },
   2: {
@@ -61,12 +87,36 @@ const SAMPLE_HEALTH_DB = {
       { month: "Oct'24", height: 145, weight: 41.3 },
       { month: "Jan'25", height: 147, weight: 42.5 },
     ],
-    nurseNotes: [{ date: "2024-10-05", note: "Asthma inhaler required during sports." }],
-    medications: [{ date: "2024-10-05", med: "Salbutamol (inhaler)", dose: "2 puffs prn", reason: "Asthma", givenBy: "Nurse Seema" }],
-    fitness: [{ program: "Football Team", status: "Active", lastParticipated: "2025-03-12" }],
-    emergencyContacts: [{ name: "Michael Doe", relation: "Father", phone: "+91 9988776655" }],
+    nurseNotes: [
+      { date: "2024-10-05", note: "Asthma inhaler required during sports." },
+    ],
+    medications: [
+      {
+        date: "2024-10-05",
+        med: "Salbutamol (inhaler)",
+        dose: "2 puffs prn",
+        reason: "Asthma",
+        givenBy: "Nurse Seema",
+      },
+    ],
+    fitness: [
+      {
+        program: "Football Team",
+        status: "Active",
+        lastParticipated: "2025-03-12",
+      },
+    ],
+    emergencyContacts: [
+      { name: "Michael Doe", relation: "Father", phone: "+91 9988776655" },
+    ],
     healthAlerts: [],
-    medicalHistory: [{ date: "2024-10-05", title: "Asthma episode", summary: "Inhaler used, parent contacted" }],
+    medicalHistory: [
+      {
+        date: "2024-10-05",
+        title: "Asthma episode",
+        summary: "Inhaler used, parent contacted",
+      },
+    ],
   },
 };
 
@@ -77,13 +127,12 @@ export default function HealthPage() {
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [leaveForm, setLeaveForm] = useState({ date: "", reason: "", file: null });
   const fileRef = useRef(null);
-  const [alerts, setAlerts] = useState([]); // runtime alerts
+  const [alerts, setAlerts] = useState([]);
   const [queryText, setQueryText] = useState("");
-  const [queries, setQueries] = useState([]); // feedback & medical queries
+  const [queries, setQueries] = useState([]);
 
   const rec = healthDB[activeChildId];
 
-  // compute BMI for charting
   const growthData = rec.growth.map((g) => {
     const heightM = g.height / 100;
     const bmi = +(g.weight / (heightM * heightM)).toFixed(1);
@@ -95,17 +144,10 @@ export default function HealthPage() {
       alert("Please provide date and reason.");
       return;
     }
-    const newReq = {
-      id: Date.now(),
-      childId: activeChildId,
-      date: leaveForm.date,
-      reason: leaveForm.reason,
-      fileName: leaveForm.file?.name ?? null,
-      status: "Pending",
-      submittedAt: new Date().toISOString(),
-    };
-    // for demo, push a notification and reset
-    setAlerts((a) => [{ type: "info", text: `Leave requested for ${leaveForm.date}` }, ...a]);
+    setAlerts((a) => [
+      { type: "info", text: `Leave requested for ${leaveForm.date}` },
+      ...a,
+    ]);
     setShowLeaveModal(false);
     setLeaveForm({ date: "", reason: "", file: null });
     if (fileRef.current) fileRef.current.value = "";
@@ -114,8 +156,10 @@ export default function HealthPage() {
   function uploadMedicalReport(e) {
     const f = e.target.files?.[0];
     if (!f) return;
-    setAlerts((a) => [{ type: "success", text: `Uploaded ${f.name} (mock)` }, ...a]);
-    // In a real app, upload to server and add to child's medicalHistory
+    setAlerts((a) => [
+      { type: "success", text: `Uploaded ${f.name} (mock)` },
+      ...a,
+    ]);
   }
 
   function saveNurseNote(text) {
@@ -123,7 +167,10 @@ export default function HealthPage() {
     const note = { date: new Date().toLocaleDateString(), note: text };
     setHealthDB((db) => {
       const copy = { ...db };
-      copy[activeChildId] = { ...copy[activeChildId], nurseNotes: [note, ...copy[activeChildId].nurseNotes] };
+      copy[activeChildId] = {
+        ...copy[activeChildId],
+        nurseNotes: [note, ...copy[activeChildId].nurseNotes],
+      };
       return copy;
     });
     setAlerts((a) => [{ type: "success", text: "Nurse note saved" }, ...a]);
@@ -132,15 +179,27 @@ export default function HealthPage() {
   function addMedication(med) {
     setHealthDB((db) => {
       const copy = { ...db };
-      copy[activeChildId] = { ...copy[activeChildId], medications: [med, ...copy[activeChildId].medications] };
+      copy[activeChildId] = {
+        ...copy[activeChildId],
+        medications: [med, ...copy[activeChildId].medications],
+      };
       return copy;
     });
-    setAlerts((a) => [{ type: "success", text: `Medication ${med.med} recorded` }, ...a]);
+    setAlerts((a) => [
+      { type: "success", text: `Medication ${med.med} recorded` },
+      ...a,
+    ]);
   }
 
   function submitHealthQuery() {
     if (!queryText.trim()) return;
-    const q = { id: Date.now(), childId: activeChildId, text: queryText, status: "Open", createdAt: new Date().toISOString() };
+    const q = {
+      id: Date.now(),
+      childId: activeChildId,
+      text: queryText,
+      status: "Open",
+      createdAt: new Date().toISOString(),
+    };
     setQueries((s) => [q, ...s]);
     setQueryText("");
     setAlerts((a) => [{ type: "info", text: "Query submitted" }, ...a]);
@@ -149,8 +208,11 @@ export default function HealthPage() {
   function downloadHealthSummaryPDF() {
     const doc = new jsPDF();
     doc.setFontSize(14);
-    doc.text(`Health Summary - ${children.find((c) => c.id === activeChildId).name}`, 14, 18);
-    // Profile table
+    doc.text(
+      `Health Summary - ${children.find((c) => c.id === activeChildId).name}`,
+      14,
+      18
+    );
     const m = healthDB[activeChildId];
     doc.autoTable({
       startY: 28,
@@ -159,75 +221,133 @@ export default function HealthPage() {
         ["Allergies", m.allergies.join(", ") || "None"],
         ["Chronic Conditions", m.chronicConditions.join(", ") || "None"],
         ["Dietary", m.dietary || "-"],
-        ["Emergency Contact(s)", m.emergencyContacts.map(ec => `${ec.name} (${ec.phone})`).join("; ")],
+        [
+          "Emergency Contact(s)",
+          m.emergencyContacts
+            .map((ec) => `${ec.name} (${ec.phone})`)
+            .join("; "),
+        ],
       ],
     });
     doc.save(`health-summary-${activeChildId}.pdf`);
   }
 
-  // small components
-  const StatCard = ({ title, value, className = "" }) => (
-    <div className={`bg-white rounded-xl p-4 shadow-sm ${className}`}>
+  const StatCard = ({ title, value }) => (
+    <div className="bg-white rounded-xl p-4 shadow-sm text-center sm:text-left">
       <div className="text-xs text-slate-500">{title}</div>
-      <div className="text-xl font-semibold mt-1">{value}</div>
+      <div className="text-lg sm:text-xl font-semibold mt-1">{value}</div>
     </div>
   );
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">🩺 Student Health & Medical Records</h1>
-          <p className="text-sm text-slate-500 mt-1">Medical history, vaccinations, nurse notes, medications and emergency contacts</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-800">
+            🩺 Student Health & Medical Records
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Medical history, vaccinations, nurse notes, medications and
+            emergency contacts
+          </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <div className="bg-white border rounded-full px-3 py-1 flex items-center gap-2 shadow-sm">
             <span className="text-sm text-slate-600">Child</span>
-            <select className="bg-transparent outline-none text-sm" value={activeChildId} onChange={(e) => setActiveChildId(Number(e.target.value))}>
-              {children.map((c) => <option key={c.id} value={c.id}>{c.name} — {c.grade}{c.section ? ` ${c.section}` : ""}</option>)}
+            <select
+              className="bg-transparent outline-none text-sm"
+              value={activeChildId}
+              onChange={(e) => setActiveChildId(Number(e.target.value))}
+            >
+              {children.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name} — {c.grade}
+                  {c.section ? ` ${c.section}` : ""}
+                </option>
+              ))}
             </select>
           </div>
 
-          <button onClick={downloadHealthSummaryPDF} className="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-full text-sm shadow">Download Summary</button>
-          <button onClick={() => setShowLeaveModal(true)} className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-full text-sm shadow">Request Sick Leave</button>
+          <button
+            onClick={downloadHealthSummaryPDF}
+            className="bg-sky-600 hover:bg-sky-700 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm shadow"
+          >
+            Download Summary
+          </button>
+          <button
+            onClick={() => setShowLeaveModal(true)}
+            className="bg-rose-600 hover:bg-rose-700 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm shadow"
+          >
+            Request Sick Leave
+          </button>
         </div>
       </div>
 
       {/* Alerts */}
       <div className="space-y-2 mb-4">
-        {rec.healthAlerts && rec.healthAlerts.map((a, i) => (
-          <div key={i} className="bg-amber-50 border-l-4 border-amber-400 text-amber-900 p-3 rounded">
-            <strong>Alert:</strong> {a}
-          </div>
-        ))}
+        {rec.healthAlerts &&
+          rec.healthAlerts.map((a, i) => (
+            <div
+              key={i}
+              className="bg-amber-50 border-l-4 border-amber-400 text-amber-900 p-3 rounded"
+            >
+              <strong>Alert:</strong> {a}
+            </div>
+          ))}
         {alerts.map((al, i) => (
-          <div key={i} className={`p-2 rounded ${al.type === "success" ? "bg-green-50 text-green-800" : al.type === "info" ? "bg-sky-50 text-sky-800" : "bg-slate-50 text-slate-800"}`}>
+          <div
+            key={i}
+            className={`p-2 rounded text-sm ${
+              al.type === "success"
+                ? "bg-green-50 text-green-800"
+                : al.type === "info"
+                ? "bg-sky-50 text-sky-800"
+                : "bg-slate-50 text-slate-800"
+            }`}
+          >
             {al.text}
           </div>
         ))}
       </div>
 
       <main className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left big column: Records & charts */}
+        {/* Left big column */}
         <section className="lg:col-span-2 space-y-6">
-          {/* top stat cards */}
+          {/* Stat cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <StatCard title="Allergies" value={rec.allergies.length ? rec.allergies.join(", ") : "None"} />
-            <StatCard title="Chronic Conditions" value={rec.chronicConditions.length ? rec.chronicConditions.join(", ") : "None"} />
+            <StatCard
+              title="Allergies"
+              value={rec.allergies.length ? rec.allergies.join(", ") : "None"}
+            />
+            <StatCard
+              title="Chronic Conditions"
+              value={
+                rec.chronicConditions.length
+                  ? rec.chronicConditions.join(", ")
+                  : "None"
+              }
+            />
             <StatCard title="Dietary" value={rec.dietary || "—"} />
           </div>
 
-          {/* Vaccination & records */}
+          {/* Vaccinations */}
           <div className="bg-white rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold">💉 Vaccinations & Immunizations</h2>
-              <div className="text-sm text-slate-500">{rec.vaccinations.length} records</div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3">
+              <h2 className="text-base sm:text-lg font-semibold">
+                💉 Vaccinations & Immunizations
+              </h2>
+              <div className="text-xs sm:text-sm text-slate-500">
+                {rec.vaccinations.length} records
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {rec.vaccinations.map((v, i) => (
-                <div key={i} className="p-3 border rounded-md bg-slate-50">
+                <div
+                  key={i}
+                  className="p-3 border rounded-md bg-slate-50 text-sm"
+                >
                   <div className="font-medium">{v.name}</div>
                   <div className="text-xs text-slate-500">Date: {v.date}</div>
                 </div>
@@ -235,50 +355,101 @@ export default function HealthPage() {
             </div>
           </div>
 
-          {/* Growth chart */}
+          {/* Growth Chart */}
           <div className="bg-white rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold">📈 Growth Chart (Height & Weight)</h2>
-              <div className="text-sm text-slate-500">Latest: {rec.growth[rec.growth.length - 1].height} cm, {rec.growth[rec.growth.length - 1].weight} kg</div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3">
+              <h2 className="text-base sm:text-lg font-semibold">
+                📈 Growth Chart (Height & Weight)
+              </h2>
+              <div className="text-xs sm:text-sm text-slate-500">
+                Latest: {rec.growth[rec.growth.length - 1].height} cm,{" "}
+                {rec.growth[rec.growth.length - 1].weight} kg
+              </div>
             </div>
-
-            <div style={{ height: 300 }}>
+            <div className="h-60 sm:h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={growthData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
-                  <YAxis yAxisId="left" label={{ value: 'cm', angle: -90, position: 'insideLeft' }} />
-                  <YAxis yAxisId="right" orientation="right" label={{ value: 'kg', angle: 90, position: 'insideRight' }} />
+                  <YAxis
+                    yAxisId="left"
+                    label={{
+                      value: "cm",
+                      angle: -90,
+                      position: "insideLeft",
+                    }}
+                  />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    label={{
+                      value: "kg",
+                      angle: 90,
+                      position: "insideRight",
+                    }}
+                  />
                   <Tooltip />
-                  <Line yAxisId="left" type="monotone" dataKey="height" stroke="#2563EB" strokeWidth={2} dot={{ r: 3 }} />
-                  <Line yAxisId="right" type="monotone" dataKey="weight" stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} />
+                  <Line
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey="height"
+                    stroke="#2563EB"
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="weight"
+                    stroke="#10B981"
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          {/* Nurse / Doctor Notes */}
+          {/* Nurse Notes */}
           <div className="bg-white rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold">🩺 Nurse / Doctor Notes</h2>
-              <div className="text-sm text-slate-500">{rec.nurseNotes.length} entries</div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3">
+              <h2 className="text-base sm:text-lg font-semibold">
+                🩺 Nurse / Doctor Notes
+              </h2>
+              <div className="text-xs sm:text-sm text-slate-500">
+                {rec.nurseNotes.length} entries
+              </div>
             </div>
             <div className="space-y-3">
               {rec.nurseNotes.map((n, idx) => (
-                <div key={idx} className="p-3 border rounded-md">
+                <div key={idx} className="p-3 border rounded-md text-sm">
                   <div className="text-xs text-slate-400">{n.date}</div>
                   <div className="mt-1">{n.note}</div>
                 </div>
               ))}
             </div>
-
-            {/* quick add note (for demo) */}
-            <div className="mt-4 flex gap-2">
-              <input placeholder="Add quick nurse note..." className="flex-1 px-3 py-2 border rounded-md" id="quickNote" />
-              <button onClick={() => { const v = document.getElementById("quickNote").value; if (v) { saveNurseNote(v); document.getElementById("quickNote").value = ""; } }} className="px-3 py-2 rounded-md bg-emerald-600 text-white">Save</button>
+            <div className="mt-4 flex flex-col sm:flex-row gap-2">
+              <input
+                placeholder="Add quick nurse note..."
+                className="flex-1 px-3 py-2 border rounded-md text-sm"
+                id="quickNote"
+              />
+              <button
+                onClick={() => {
+                  const v = document.getElementById("quickNote").value;
+                  if (v) {
+                    saveNurseNote(v);
+                    document.getElementById("quickNote").value = "";
+                  }
+                }}
+                className="px-3 py-2 rounded-md bg-emerald-600 text-white text-sm"
+              >
+                Save
+              </button>
             </div>
           </div>
 
+         
           {/* Medications */}
           <div className="bg-white rounded-2xl p-4 shadow-sm">
             <div className="flex items-center justify-between mb-3">
@@ -395,3 +566,4 @@ export default function HealthPage() {
     </div>
   );
 }
+

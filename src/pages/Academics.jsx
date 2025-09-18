@@ -28,42 +28,46 @@ export default function AcademicsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100 p-2 sm:p-4">
       <div className="max-w-6xl mx-auto space-y-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Academic Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+          Academic Dashboard
+        </h1>
 
         {/* Student Overview */}
-        <div className="bg-white p-6 rounded-xl shadow flex flex-col md:flex-row justify-between items-start gap-4">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-2xl font-semibold">{student.name}</h2>
-            <p>Class: {student.class} | Section: {student.section} | Roll No: {student.rollNo}</p>
-            <p>Term: {student.term}</p>
+            <h2 className="text-xl sm:text-2xl font-semibold">{student.name}</h2>
+            <p className="text-sm sm:text-base">
+              Class: {student.class} | Section: {student.section} | Roll No: {student.rollNo}
+            </p>
+            <p className="text-sm sm:text-base">Term: {student.term}</p>
           </div>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             Switch Student
           </button>
         </div>
 
         {/* Subjects & Marks */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Marks & Grades</h2>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Marks & Grades</h2>
           <div className="overflow-x-auto">
-            <table className="w-full table-auto border-collapse border border-gray-300">
+            <table className="w-full text-sm sm:text-base table-auto border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="border px-4 py-2">Subject</th>
-                  <th className="border px-4 py-2">Teacher</th>
-                  <th className="border px-4 py-2">Marks</th>
-                  <th className="border px-4 py-2">Grade</th>
+                  <th className="border px-2 sm:px-4 py-2">Subject</th>
+                  <th className="border px-2 sm:px-4 py-2">Teacher</th>
+                  <th className="border px-2 sm:px-4 py-2">Marks</th>
+                  <th className="border px-2 sm:px-4 py-2">Grade</th>
                 </tr>
               </thead>
               <tbody>
                 {subjects.map((sub, idx) => (
                   <tr key={idx} className="hover:bg-gray-50">
-                    <td className="border px-4 py-2">{sub.name}</td>
-                    <td className="border px-4 py-2">{sub.teacher}</td>
-                    <td className="border px-4 py-2">{sub.marks}</td>
-                    <td className="border px-4 py-2">{sub.grade}</td>
+                    <td className="border px-2 sm:px-4 py-2">{sub.name}</td>
+                    <td className="border px-2 sm:px-4 py-2">{sub.teacher}</td>
+                    <td className="border px-2 sm:px-4 py-2">{sub.marks}</td>
+                    <td className="border px-2 sm:px-4 py-2">{sub.grade}</td>
                   </tr>
                 ))}
               </tbody>
@@ -72,40 +76,40 @@ export default function AcademicsPage() {
         </div>
 
         {/* Progress Reports */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Progress Reports</h2>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Progress Reports</h2>
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 h-48 bg-gray-100 rounded flex items-center justify-center">
+            <div className="flex-1 h-40 sm:h-48 bg-gray-100 rounded flex items-center justify-center">
               📊 Bar Chart Placeholder
             </div>
-            <div className="flex-1 h-48 bg-gray-100 rounded flex items-center justify-center">
+            <div className="flex-1 h-40 sm:h-48 bg-gray-100 rounded flex items-center justify-center">
               📈 Line Chart Placeholder
             </div>
           </div>
         </div>
 
         {/* Exam Schedule & Results */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Exam Schedule & Results</h2>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Exam Schedule & Results</h2>
           <div className="overflow-x-auto">
-            <table className="w-full table-auto border-collapse border border-gray-300">
+            <table className="w-full text-sm sm:text-base table-auto border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="border px-4 py-2">Subject</th>
-                  <th className="border px-4 py-2">Date</th>
-                  <th className="border px-4 py-2">Time</th>
-                  <th className="border px-4 py-2">Status</th>
-                  <th className="border px-4 py-2">Marks</th>
+                  <th className="border px-2 sm:px-4 py-2">Subject</th>
+                  <th className="border px-2 sm:px-4 py-2">Date</th>
+                  <th className="border px-2 sm:px-4 py-2">Time</th>
+                  <th className="border px-2 sm:px-4 py-2">Status</th>
+                  <th className="border px-2 sm:px-4 py-2">Marks</th>
                 </tr>
               </thead>
               <tbody>
                 {exams.map((exam, idx) => (
                   <tr key={idx} className="hover:bg-gray-50">
-                    <td className="border px-4 py-2">{exam.subject}</td>
-                    <td className="border px-4 py-2">{exam.date}</td>
-                    <td className="border px-4 py-2">{exam.time}</td>
-                    <td className="border px-4 py-2">{exam.status}</td>
-                    <td className="border px-4 py-2">{exam.marks || "-"}</td>
+                    <td className="border px-2 sm:px-4 py-2">{exam.subject}</td>
+                    <td className="border px-2 sm:px-4 py-2">{exam.date}</td>
+                    <td className="border px-2 sm:px-4 py-2">{exam.time}</td>
+                    <td className="border px-2 sm:px-4 py-2">{exam.status}</td>
+                    <td className="border px-2 sm:px-4 py-2">{exam.marks || "-"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -114,13 +118,13 @@ export default function AcademicsPage() {
         </div>
 
         {/* Homework & Assignments */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Homework & Assignments</h2>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Homework & Assignments</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {subjects.map((sub, idx) => (
-              <div key={idx} className="bg-gray-50 p-4 rounded shadow flex justify-between items-center">
+              <div key={idx} className="bg-gray-50 p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <p>{sub.name} - Pending Homework</p>
-                <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <button className="w-full sm:w-auto px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                   View
                 </button>
               </div>
@@ -129,8 +133,8 @@ export default function AcademicsPage() {
         </div>
 
         {/* Attendance Summary */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Attendance & Participation</h2>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Attendance & Participation</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {subjects.map((sub, idx) => (
               <div key={idx} className="bg-gray-50 p-4 rounded shadow">
@@ -141,13 +145,13 @@ export default function AcademicsPage() {
         </div>
 
         {/* Teacher Interaction */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Teacher Interaction</h2>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Teacher Interaction</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {subjects.map((sub, idx) => (
-              <div key={idx} className="bg-gray-50 p-4 rounded shadow flex justify-between items-center">
+              <div key={idx} className="bg-gray-50 p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <p>{sub.teacher} ({sub.name})</p>
-                <button className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
+                <button className="w-full sm:w-auto px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
                   Message
                 </button>
               </div>
@@ -156,13 +160,13 @@ export default function AcademicsPage() {
         </div>
 
         {/* Downloadable Resources */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Downloadable Resources</h2>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Downloadable Resources</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {resources.map((res, idx) => (
-              <div key={idx} className="bg-gray-50 p-4 rounded shadow flex justify-between items-center">
+              <div key={idx} className="bg-gray-50 p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <p>{res.subject} - {res.name}</p>
-                <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <button className="w-full sm:w-auto px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                   Download
                 </button>
               </div>
@@ -171,9 +175,9 @@ export default function AcademicsPage() {
         </div>
 
         {/* Notifications & Alerts */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Notifications & Alerts</h2>
-          <ul className="list-disc pl-5 space-y-2 text-gray-700">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Notifications & Alerts</h2>
+          <ul className="list-disc pl-5 space-y-2 text-gray-700 text-sm sm:text-base">
             <li>Low performance in History.</li>
             <li>Upcoming Math Test on 2025-09-10.</li>
             <li>Science assignment deadline approaching.</li>
